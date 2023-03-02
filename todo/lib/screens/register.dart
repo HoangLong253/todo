@@ -37,10 +37,12 @@ class _RegisterState extends State<Register> {
   }
 
   getAllUser(QuerySnapshot<Map<String, dynamic>> records) {
-    var list = records.docs.map((e) => User1(
-      username: e['username'],
-      email: e['email'],
-    )).toList();
+    var list = records.docs
+        .map((e) => User1(
+              username: e['username'],
+              email: e['email'],
+            ))
+        .toList();
     alluser = list;
   }
 
@@ -55,10 +57,12 @@ class _RegisterState extends State<Register> {
     String temp1 = txtMail1.text;
     String temp2 = txtUsername.text;
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
         email: txtMail1.text,
         password: txtPass1.text,
-      ).then((value){
+      )
+          .then((value) {
         final user = User1(
           uid: FirebaseAuth.instance.currentUser?.uid,
           email: temp1,
@@ -102,15 +106,16 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-
     Future register() async {
       String temp1 = txtMail1.text;
       String temp2 = txtUsername.text;
-      try{
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      try {
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
           email: txtMail1.text.trim(),
           password: txtPass1.text.trim(),
-        ).then((value){
+        )
+            .then((value) {
           final user = User1(
             uid: FirebaseAuth.instance.currentUser?.uid,
             email: temp1,
@@ -119,29 +124,35 @@ class _RegisterState extends State<Register> {
           createUser(user, value.user!.uid);
         });
       } on FirebaseAuthException catch (e) {
-        switch(e.code) {
-          case 'email-already-in-use': {
-            ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(const SnackBar(content: Text('Email đã được sử dụng')));
-            break;
-          }
-          case 'invalid-email': {
-            ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(const SnackBar(content: Text('Email không hợp lệ')));
-            break;
-          }
-          case 'weak-password': {
-            ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(const SnackBar(content: Text('Mật khẩu không đủ 8 kí tự')));
-            break;
-          }
+        switch (e.code) {
+          case 'email-already-in-use':
+            {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Email đã được sử dụng')));
+              break;
+            }
+          case 'invalid-email':
+            {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Email không hợp lệ')));
+              break;
+            }
+          case 'weak-password':
+            {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Mật khẩu không đủ 8 kí tự')));
+              break;
+            }
         }
       }
     }
 
     return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomInset: true,
-      body: Center(
-        child: SingleChildScrollView(
-          child:Column(
+        key: _scaffoldKey,
+        resizeToAvoidBottomInset: true,
+        body: Center(
+            child: SingleChildScrollView(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
@@ -149,8 +160,13 @@ class _RegisterState extends State<Register> {
                 width: 100,
                 child: Image.asset('assets/imgs/todo.png'),
               ),
-              const SizedBox(height: 10,),
-              const Text('Đăng kí', style: TextStyle(fontSize: 20),),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Đăng kí',
+                style: TextStyle(fontSize: 20),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -173,17 +189,17 @@ class _RegisterState extends State<Register> {
                         style: const TextStyle(color: Colors.black),
                         decoration: const InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2, color: Colors.blue)
-                            ),
+                                borderSide:
+                                    BorderSide(width: 2, color: Colors.blue)),
                             border: OutlineInputBorder(),
                             hintText: 'Nhập username',
-                            hintStyle: TextStyle(color: Colors.grey)
-                        )
-                    ),
+                            hintStyle: TextStyle(color: Colors.grey))),
                   )
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -206,17 +222,17 @@ class _RegisterState extends State<Register> {
                         style: const TextStyle(color: Colors.black),
                         decoration: const InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2, color: Colors.blue)
-                            ),
+                                borderSide:
+                                    BorderSide(width: 2, color: Colors.blue)),
                             border: OutlineInputBorder(),
                             hintText: 'Nhập email',
-                            hintStyle: TextStyle(color: Colors.grey)
-                        )
-                    ),
+                            hintStyle: TextStyle(color: Colors.grey))),
                   )
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -239,20 +255,22 @@ class _RegisterState extends State<Register> {
                                   cpass = !cpass;
                                 });
                               },
-                              child: Icon(cpass ? Icons.visibility : Icons.visibility_off),
+                              child: Icon(cpass
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
                             ),
                             enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(width: 2, color: Colors.blue)
-                            ),
+                                borderSide:
+                                    BorderSide(width: 2, color: Colors.blue)),
                             border: const OutlineInputBorder(),
                             hintText: 'Nhập mật khẩu',
-                            hintStyle: const TextStyle(color: Colors.grey)
-                        )
-                    ),
+                            hintStyle: const TextStyle(color: Colors.grey))),
                   )
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -275,16 +293,16 @@ class _RegisterState extends State<Register> {
                                   ccf = !ccf;
                                 });
                               },
-                              child: Icon(ccf ? Icons.visibility : Icons.visibility_off),
+                              child: Icon(ccf
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
                             ),
                             enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(width: 2, color: Colors.blue)
-                            ),
+                                borderSide:
+                                    BorderSide(width: 2, color: Colors.blue)),
                             border: const OutlineInputBorder(),
                             hintText: 'Nhập lại password',
-                            hintStyle: const TextStyle(color: Colors.grey)
-                        )
-                    ),
+                            hintStyle: const TextStyle(color: Colors.grey))),
                   )
                 ],
               ),
@@ -297,70 +315,66 @@ class _RegisterState extends State<Register> {
                         setState(() {
                           change = value!;
                         });
-                      }
-                  ),
+                      }),
                   const Text('Tôi đồng ý với các điều khoản')
                 ],
               ),
               ElevatedButton(
                   onPressed: () {
-                    for(var list in alluser) {
-                      if (list.username.toString() == txtUsername.text){
+                    for (var list in alluser) {
+                      if (list.username.toString() == txtUsername.text) {
                         setState(() {
                           checkUser = true;
                         });
                         break;
                       }
+                      if (list.email.toString() == txtUsername.text) {
+                        setState(() {
+                          checkEmail = true;
+                        });
+                        break;
+                      }
                     }
-                    if (txtUsername.text.isEmpty
-                        || txtMail1.text.isEmpty
-                        || txtPass1.text.isEmpty
-                        || txtCf.text.isEmpty) {
+                    if (txtUsername.text.isEmpty ||
+                        txtMail1.text.isEmpty ||
+                        txtPass1.text.isEmpty ||
+                        txtCf.text.isEmpty) {
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content:
-                          Text('Vui lòng nhập đầy đủ các trường dữ liệu')));
-                    }
-                    else if (txtPass1.text.length < 8) {
+                              Text('Vui lòng nhập đầy đủ các trường dữ liệu')));
+                    } else if (txtPass1.text.length < 8) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Password không trên 8 kí tự')));
+                    } else if (txtPass1.text != txtCf.text) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Password không trùng khớp')));
+                    } else if (change == false) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Vui lòng tick vào ô xác nhận')));
+                    } else if (checkUser) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Username đã được dùng')));
+                    } else if (checkEmail) {
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Password không trên 8 kí tự')));
-                    }
-                    else if (txtPass1.text != txtCf.text) {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Password không trùng khớp')));
-                    }
-                    else if (change == false) {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Vui lòng tick vào ô xác nhận')));
-                    }
-                    else if (checkUser){
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Username đã được dùng'))
-                      );
-                    }
-                    else if (checkEmail){
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Email đã được dùng'))
-                      );
-                    }
-                    else {
+                          const SnackBar(content: Text('Email đã được dùng')));
+                    } else {
                       register();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => const Auth()),
-                              (route) => false
-                      ).then((value) {
-                        if(FirebaseAuth.instance.currentUser != null) {
-                          ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(const SnackBar(content: Text('Đăng kí thành công')));
+                      Navigator.of(context)
+                          .pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const Auth()),
+                              (route) => false)
+                          .then((value) {
+                        if (FirebaseAuth.instance.currentUser != null) {
+                          ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+                              .showSnackBar(const SnackBar(
+                                  content: Text('Đăng kí thành công')));
                         }
                       });
 
@@ -371,8 +385,10 @@ class _RegisterState extends State<Register> {
                       //signOut();
                     }
                   },
-                  child: const Text('Đăng kí', style: TextStyle(color: Colors.white),)
-              ),
+                  child: const Text(
+                    'Đăng kí',
+                    style: TextStyle(color: Colors.white),
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -380,18 +396,18 @@ class _RegisterState extends State<Register> {
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => const Login()),
-                                (route) => false
-                        );
+                            MaterialPageRoute(
+                                builder: (context) => const Login()),
+                            (route) => false);
                       },
-                      child: const Text('đăng nhập ngay', style: TextStyle(color: Colors.lightBlue),)
-                  ),
+                      child: const Text(
+                        'đăng nhập ngay',
+                        style: TextStyle(color: Colors.lightBlue),
+                      )),
                 ],
               ),
             ],
           ),
-        )
-      )
-    );
+        )));
   }
 }
