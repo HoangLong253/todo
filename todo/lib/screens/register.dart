@@ -123,11 +123,11 @@ class _RegisterState extends State<Register> {
           );
           createUser(user, value.user!.uid);
         });
-      } on FirebaseAuthException catch (e) {
+      } /*on FirebaseAuthException catch (e) {
         switch (e.code) {
           case 'email-already-in-use':
             {
-              ScaffoldMessenger.of(context).showSnackBar(
+              ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
                   const SnackBar(content: Text('Email đã được sử dụng')));
               break;
             }
@@ -144,6 +144,9 @@ class _RegisterState extends State<Register> {
               break;
             }
         }
+      }*/
+      catch (e) {
+        return e;
       }
     }
 
@@ -328,7 +331,7 @@ class _RegisterState extends State<Register> {
                         });
                         break;
                       }
-                      if (list.email.toString() == txtUsername.text) {
+                      if (list.email.toString() == txtMail1.text) {
                         setState(() {
                           checkEmail = true;
                         });
@@ -347,6 +350,10 @@ class _RegisterState extends State<Register> {
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text('Password không trên 8 kí tự')));
+                      txtUsername.text = '';
+                      txtMail1.text = '';
+                      txtPass1.text = '';
+                      txtCf.text = '';
                     } else if (txtPass1.text != txtCf.text) {
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -355,21 +362,33 @@ class _RegisterState extends State<Register> {
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text('Vui lòng tick vào ô xác nhận')));
+                      txtUsername.text = '';
+                      txtMail1.text = '';
+                      txtPass1.text = '';
+                      txtCf.text = '';
                     } else if (checkUser) {
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text('Username đã được dùng')));
+                      txtUsername.text = '';
+                      txtMail1.text = '';
+                      txtPass1.text = '';
+                      txtCf.text = '';
                     } else if (checkEmail) {
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Email đã được dùng')));
+                      txtUsername.text = '';
+                      txtMail1.text = '';
+                      txtPass1.text = '';
+                      txtCf.text = '';
                     } else {
                       register();
                       Navigator.of(context)
                           .pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (context) => const Auth()),
-                              (route) => false)
+                              (route) => route.isCurrent)
                           .then((value) {
                         if (FirebaseAuth.instance.currentUser != null) {
                           ScaffoldMessenger.of(_scaffoldKey.currentContext!)
